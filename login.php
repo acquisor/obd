@@ -172,7 +172,7 @@ footer {
 	</div>
 	
 <center><br>
-<form action="script/login_reg_user.php" method="post">
+<form action="script/login.php" method="post">
   <div class="loginform">
     <img src="img_avatar2.png" alt="Avatar" class="avatar"/><br>
 	<label><b>Username: &nbsp</b></label><input type="text" placeholder="Enter Username" name="uname" required><br>

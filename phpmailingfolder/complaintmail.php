@@ -9,7 +9,7 @@ $complaintSubj=$_POST["subject"];
 $detailcomplaint=$_POST["complaint"];
 $username=$_SESSION["username"];
 
-$conn = new mysqli("localhost",'priyen','priyen@312','priyen@watertank');
+$conn = new mysqli("localhost",'priyen','priyen@312','id9261150_obd');
 $sql="SELECT * FROM `login` WHERE `username`='$username'";
 $result = $conn->query($sql);
 

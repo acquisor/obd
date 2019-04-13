@@ -1,8 +1,5 @@
 <?php
 session_start();
-if(!isset($_SESSION["username"]))
-    echo '<script language="javascript">alert("You have logged out. Please log in again.")
-            window.location.href="login.php"</script>';
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -15,7 +12,7 @@ if(!isset($_SESSION["username"]))
     <meta name="description" content="" />
     <meta name="author" content="" />
 	
-<title>Water acQuisor</title>
+<title>acQuisor OBD</title>
         <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="css/font-awesome.min.css" rel="stylesheet" type="text/css" />
     <link href="css/animate.min.css" rel="stylesheet" type="text/css" />
@@ -128,24 +125,21 @@ footer {
               </div>
               <br>
         <div class="collapse navbar-collapse" id="myNavbar">
-        	 <center><font color="cyan">Last edit: SEP 27, 3:51 AM</center></font>
                     <ul class="nav navbar-nav">
+
                         <li><a href="monitor1.php">Home &nbsp<span class="glyphicon glyphicon-home"></span></a></li>
                         <li><a href="contact.php">Contact &nbsp<span class="glyphicon glyphicon-envelope"></span></a></li> 
                         <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Menu <span class="glyphicon glyphicon-th-list"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="monitor1.php"><span class="glyphicon glyphicon-eye-open"></span> &nbsp Monitor & Control</a></li>
-                            <li><a href="tank1.php"> <span class="glyphicon glyphicon-tasks"></span> &nbsp Tank Details</a> </li>
-                            <li class="active"><a href="setuptank.php"><span class="glyphicon glyphicon-map-marker"></span> &nbsp Setup New Tanks </a> </li>
-                            <li><a href="consumption1.php"><span class="glyphicon glyphicon-stats"></span> &nbsp Consumption </a> </li>
-                            <li><a href="complaint.php"><span class="glyphicon glyphicon-edit"></span> &nbsp Complaint</a></li>
-                            
-                            <li><a href="map.php"><span class="glyphicon glyphicon-globe"></span> &nbsp MAPS  </a></li> 
+                            <li><a href="monitor1.php"><span class="glyphicon glyphicon-eye-open"></span> &nbsp Monitor OBD</a></li>
+                            <li><a href="devDetails.php"> <span class="glyphicon glyphicon-tasks"></span> &nbsp Device Details</a> </li>
+                            <li class="active"><a href="dtcSearch.php"><span class="glyphicon glyphicon-map-marker"></span> &nbsp Search DTC </a> </li>
+                            <li><a href="graph.php"><span class="glyphicon glyphicon-stats"></span> &nbsp Graphical Analysis </a> </li>
+                            <li><a href="complaint.php"><span class="glyphicon glyphicon-edit"></span> &nbsp Register Malfunction</a></li
                         </ul>
                     </ul>
 
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="deviceStatus.php"><span class="glyphicon glyphicon-flash"></span> Device status</a></li>
                         <li><a href="logout.html"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
                     </ul>
                 </div>
@@ -163,7 +157,7 @@ footer {
 	<br>
 	<?php
 		require 'connect.php';
-		$sqlS = "SELECT * from `tank_details`";
+		$sqlS = "SELECT * from `dtc`";
 		$result = $conn->query($sqlS);
 		$tanks = array();
 		if ($result->num_rows > 0) 
@@ -177,7 +171,13 @@ footer {
 				$tanks = json_encode($tanks, true);
 				echo '<div id = "data">'. $tanks . '</div>';
 	?> 
-	<div id="map"></div>
+	<div id="dtcDetails">
+
+        <center>
+            <h1>Search DTCs from our database!</h1>
+        </center>
+        
+    </div>
 	<br>
 	</div>
 	
@@ -199,50 +199,6 @@ footer {
 		}
 	?>
 	
-<script type="text/javascript" id="googlemap">
-var map;
-var i;
-var marker;
-var infowindow;
-var messagewindow;
-var lat;
-var lng;
-var contentStringMenu;
-
-      function initMap() {
-       var rit = {lat: 17.063576, lng: 74.281733};
-        map = new google.maps.Map(document.getElementById('map'), {
-          center: rit,
-          zoom: 18
-        });
-
-        google.maps.event.addListener(map, 'click', function(event) {
-		 var mylatlng = event.latLng;
-		 lat = mylatlng.lat();
-		 lng = mylatlng.lng();
-		
-		 var contentStringMenu = '<div id="content"><form method="get" action="#"><center><h4><b>Fill all the details</b></h4></center><table><tr><td>Tank Name:</td> <td>&nbsp &nbsp<input type="text" name="tankname" required="required"/> </td> </tr><tr><br><td>Motor Name:</td> <td><br>&nbsp &nbsp<input type="text" name="motorName"/> </td> </tr><tr><td><br>Height:</td> <td><br>&nbsp &nbsp<input type="text" name="height" required="required"/></td></tr><tr><td><br>Volume</td><td><br>&nbsp &nbsp<input type="text" name="volume" required="required"/></td></tr><tr><td><br>Motor power</td><td><br>&nbsp &nbsp<input type="text" name="motor_power" required="required"/></td></tr><tr><td><br>Latitude: </td><td><br>&nbsp &nbsp<input type="text" name="lat" value="'+lat+'"/></td></tr><tr><td><br>Longitude</td><td><br>&nbsp &nbsp<input type="text" name="lng" value="'+lng+'"/></td></tr></table><center><br><br><input type="submit" class="btn btn-success" name="save" value="save"/></center></form></div>';
-		 
-          infowindow = new google.maps.InfoWindow({
-          content: contentStringMenu
-        });
-		
-		  marker = new google.maps.Marker({
-            position: event.latLng,
-            map: map,
-			draggable: true
-          });
-
-          google.maps.event.addListener(marker, 'click', function() {
-            infowindow.open(map, marker);
-          });
-        });
-      }
-	
-</script>
- <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDspQc_gy3I-y8RQ5OVkoRZX5YOnZ2cMa4&callback=initMap">
-    </script>
     <script src="js/jquery.js" type="text/javascript"></script>
     <script src="js/bootstrap.min.js" type="text/javascript"></script>
     <script src="js/jquery.prettyPhoto.js" type="text/javascript"></script>
