@@ -24,7 +24,7 @@ form {
     border: "5px" solid #f1f1f1;
 }
 body {
-  background-image: url(p2.jpg);
+  background-image: url(images/bkgnd.jpg);
 }
 input[type=text], input[type=password] {
     width: auto;
@@ -149,7 +149,6 @@ footer {
             <a class="navbar-brand" href="index.html"><font color="cyan"><img src="images/acQuisorLogo.png"/></font></a>
               </div><br>
               <div class="collapse navbar-collapse" id="myNavbar">
-                <center><font color="cyan">Last edit: APR 13, 3:21AM </font></center>
                 <ul class="nav navbar-nav">
                   <li><a href="index.html">Home</a></li>
                   <li><a href="contactHome.php">Contact</a></li>  

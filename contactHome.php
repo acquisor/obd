@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-<title>water acQuisor</title>
+<title>acQuisor OBD</title>
     <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="css/font-awesome.min.css" rel="stylesheet" type="text/css" />
     <link href="css/animate.min.css" rel="stylesheet" type="text/css" />
@@ -24,7 +24,7 @@ mark {
     color: black;
 }
 body {
-	background-image: url(p2.jpg);
+	background-image: url(images/bkgnd.jpg);
 }
 body,td,th {
 	font-family: Times New Roman, Times, serif;
@@ -147,7 +147,7 @@ footer {
      <a class="navbar-brand" href="index.html"><font color="cyan"><img src="images/acQuisorLogo.png"/></font></a>
               </div><br>
         <div class="collapse navbar-collapse" id="myNavbar">
-          <center><font color="cyan">Last edit: SEP 09, 3:21 AM</font></center>
+
                     <ul class="nav navbar-nav">
                         <li><a href="index.html">Home</a></li>
                         <li class="active"><a href="contactHome.php">Contact</a></li>  
@@ -183,7 +183,7 @@ footer {
                            
                                                   
                             <div class="col-lg-12 col-md-12 col-sm-12" >
-                               <h2 style="color:WHITE" align="center" ><b>Contact For Product Enquiry / purchase </b>
+                               <h2  align="center" ><b>Contact For Product Enquiry / purchase </b>
                           </h2> 
                                 <form method="post" action="phpmailingfolder/enquiry.php">
                                 <div class="form-group">

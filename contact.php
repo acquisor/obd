@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-<title>SpäterTech WaterTank</title>
+    <title>acQuisor OBD</title>
         <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="css/font-awesome.min.css" rel="stylesheet" type="text/css" />
     <link href="css/animate.min.css" rel="stylesheet" type="text/css" />
@@ -28,7 +28,7 @@ mark {
     color: black;
 }
 body {
-	background-image: url(p2.jpg);
+	background-image: url(images/bkgnd.jpg);
 }
 body,td,th {
 	font-family: Times New Roman, Times, serif;
@@ -145,24 +145,21 @@ footer {
               </div>
               <br>
         <div class="collapse navbar-collapse" id="myNavbar">
-             <center><font color="cyan">Last edit: SEP 27, 3:51 AM</center></font>
+             
                     <ul class="nav navbar-nav">
                         <li><a href="monitor1.php">Home &nbsp<span class="glyphicon glyphicon-home"></span></a></li>
                         <li class="active"><a href="contact.php">Contact &nbsp<span class="glyphicon glyphicon-envelope"></span></a></li> 
                         <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Menu <span class="glyphicon glyphicon-th-list"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="monitor1.php"><span class="glyphicon glyphicon-eye-open"></span> &nbsp Monitor & Control</a></li>
-                            <li><a href="tank1.php"> <span class="glyphicon glyphicon-tasks"></span> &nbsp Tank Details</a> </li>
-                            <li><a href="setuptank.php"><span class="glyphicon glyphicon-map-marker"></span> &nbsp Setup New Tanks </a> </li>
-                            <li><a href="consumption1.php"><span class="glyphicon glyphicon-stats"></span> &nbsp Consumption </a> </li>
-                            <li><a href="complaint.php"><span class="glyphicon glyphicon-edit"></span> &nbsp Complaint</a></li>
-                            
-                            <li><a href="map.php"><span class="glyphicon glyphicon-globe"></span> &nbsp MAPS  </a></li> 
+                            <li><a href="monitor1.php"><span class="glyphicon glyphicon-eye-open"></span> &nbsp Monitor OBD</a></li>
+                            <li><a href="devDetails.php"> <span class="glyphicon glyphicon-tasks"></span> &nbsp Device Details</a> </li>
+                            <li><a href="dtcsearch.php"><span class="glyphicon glyphicon-search"></span> &nbsp Search DTC </a> </li>
+                            <li><a href="graph.php"><span class="glyphicon glyphicon-stats"></span> &nbsp Graphical Analysis </a> </li>
+                            <li><a href="complaint.php"><span class="glyphicon glyphicon-edit"></span> &nbsp Register Malfunction</a></li>
                         </ul>
                     </ul>
 
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="deviceStatus.php"><span class="glyphicon glyphicon-flash"></span> Device status</a></li>
                         <li><a href="logout.html"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
                     </ul>
                 </div>
@@ -190,7 +187,7 @@ footer {
                            
                                                   
                             <div class="col-lg-12 col-md-12 col-sm-12" >
-                               <h2 style="color:WHITE" align="center" ><b>Contact For Product Enquiry / purchase </b>
+                               <h2  align="center" ><b>Contact For Product Enquiry / purchase </b>
                           </h2> 
                                 <form method="post" action="phpmailingfolder/enquiry.php">
                                 <div class="form-group">

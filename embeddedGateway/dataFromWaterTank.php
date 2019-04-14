@@ -1,6 +1,6 @@
 <?php
 date_default_timezone_set("Asia/Kolkata");
-if(_GET)
+if($_GET)
 {
 	$level = $_GET["level"];
 	$height1 = $_GET["height"];

@@ -9,9 +9,9 @@ session_start();
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-	<META HTTP-EQUIV="refresh" content="10" />
+	
 
-<title>Water acQuisor</title>
+<title>acQuisor OBD</title>
         <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="css/font-awesome.min.css" rel="stylesheet" type="text/css" />
     <link href="css/animate.min.css" rel="stylesheet" type="text/css" />
@@ -33,7 +33,7 @@ mark {
     color: black;
 }
 body {
-	background-image: url(p2.jpg);
+	background-image: url(images/bkgnd.jpg);
 }
 body,td,th {
 	font-family: Times New Roman, Times, serif;
@@ -198,25 +198,21 @@ tr:nth-child(odd) {
               </div>
               <br>
         <div class="collapse navbar-collapse" id="myNavbar">
-           <center><font color="cyan">Last edit: SEP 27, 3:51 AM</center></font>
+
                     <ul class="nav navbar-nav">
-                        <li><a href="monitor1.php">Home &nbsp<span class="glyphicon glyphicon-home"></span></a></li>
+                        <li class="active"><a href="monitor1.php">Home &nbsp<span class="glyphicon glyphicon-home"></span></a></li>
                         <li><a href="contact.php">Contact &nbsp<span class="glyphicon glyphicon-envelope"></span></a></li> 
                         <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Menu <span class="glyphicon glyphicon-th-list"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="monitor1.php"><span class="glyphicon glyphicon-eye-open"></span> &nbsp Monitor & Control</a></li>
-                            <li><a href="tank1.php"> <span class="glyphicon glyphicon-tasks"></span> &nbsp Tank Details</a> </li>
-                            <li><a href="setuptank.php"><span class="glyphicon glyphicon-map-marker"></span> &nbsp Setup New Tanks </a> </li>
-                            <li class="active"><a href="consumption1.php"><span class="glyphicon glyphicon-stats"></span> &nbsp Consumption </a> </li>
-                            <li><a href="complaint.php"><span class="glyphicon glyphicon-edit"></span> &nbsp Complaint</a></li>
-                            
-                            <li><a href="map.php"><span class="glyphicon glyphicon-globe"></span> &nbsp MAPS  </a></li> 
+                            <li><a href="monitor1.php"><span class="glyphicon glyphicon-eye-open"></span> &nbsp Monitor OBD</a></li>
+                            <li><a href="dtcsearch.php"><span class="glyphicon glyphicon-search"></span> &nbsp Search DTC </a> </li>
+                            <li><a href="graph.php"><span class="glyphicon glyphicon-stats"></span> &nbsp Graphical Analysis </a> </li>
+                            <li><a href="complaint.php"><span class="glyphicon glyphicon-edit"></span> &nbsp Register Malfunction</a></li>
                         </ul>
                     </ul>
 
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="index.html"><span class="glyphicon glyphicon-flash"></span> Device status</a></li>
-                        <li><a href="login.php"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+                        <li><a href="logout.html"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
                     </ul>
                 </div>
             </div><!--/.container-->
@@ -230,49 +226,40 @@ tr:nth-child(odd) {
 	
 	</div>
 	<div class="container">
-		<section class="tank_details">
+		
 <?php
 //index.php
-$connect = mysqli_connect("172.22.25.3", "priyen", "priyen@312", "priyen@watertank");
-$query = '
-SELECT `used`, 
-UNIX_TIMESTAMP(CONCAT_WS(" ", `date`)) AS `date` 
-FROM `consumption`
-ORDER BY `date` DESC
-';
-$result = mysqli_query($connect, $query);
-$rows = array();
-$table = array();
+require 'connect.php';
+$qry = "SELECT `time`, `rpm`, `speed`, `engineload`, `throttle` from `obd_log` WHERE `date`='2019-04-14' ORDER BY `time` ASC";
+$result = $conn->query($qry);
 
-$table['cols'] = array(
- array(
-  'label' => 'Date', 
-  'type' => 'date'
- ),
- array(
-  'label' => 'Water Level (%)', 
-  'type' => 'number'
- )
-
-);
-
-while($row = mysqli_fetch_array($result))
-{
- $sub_array = array();
- $date = explode(".", $row["date"]);
- $sub_array[] =  array(
-      "v" => 'Date(' . $date[0] . '000)'
-     );
- $sub_array[] =  array(
-      "v" => $row["used"]
-     );
- $rows[] =  array(
-     "c" => $sub_array
-    );
+if($result === FALSE) {
+    echo mysqli_errno($result) .": ". mysqli_error($result) ."/n";
+    die(mysqli_error());
 }
-$table['rows'] = $rows;
-$jsonTable = json_encode($table);
+    $i = 0; //iteration counter - start at 0
 
+    $totalRows = mysqli_num_rows($result); // we need this to know when to change the output
+    $targetRows = $totalRows - 1; //row indies start from 0, not 1.
+
+    foreach ($result as $row){ 
+
+        $comTime = str_replace(":",",",$row['time']); // for each row, remove the : and put , in its place
+        if ($targetRows == $i) { // if the index is the same value as the target (ie, it's the last row)...
+
+            $temp = "[[".$comTime."],".($row['rpm']/1000).",".($row['speed']).",".($row['engineload']).",".($row['throttle'])."]". PHP_EOL;
+            } else {
+            $temp = "[[".$comTime."],".($row['rpm']/1000).",".($row['speed']).",".($row['engineload']).",".($row['throttle'])."],". PHP_EOL;
+            }
+        $i = $i + 1; 
+        $rows[] = $temp; 
+    }
+
+ $table = $rows;
+ $data = implode($table); //format the table as a single string, with line returns
+
+//echo $i;
+//echo $data;
 ?>
 
 
@@ -281,29 +268,31 @@ $jsonTable = json_encode($table);
   <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
   <script type="text/javascript">
    google.charts.load('current', {'packages':['corechart']});
-   google.charts.setOnLoadCallback(drawChart);
-   function drawChart()
-   {
-    var data = new google.visualization.DataTable(<?php echo $jsonTable; ?>);
+      google.charts.setOnLoadCallback(drawChart);
 
-    var optionsWater = {
-     title:'Water Consumption',
-     legend:{position:'bottom'},
-     chartArea:{width:'90%', height:'60%'}
-    };
+      function drawChart(){
+        var data = new google.visualization.DataTable();
+            data.addColumn('timeofday','Time'); 
+            data.addColumn('number','RPM X 1000');
+            data.addColumn('number','Speed(kmph)');
+            data.addColumn('number','EngineLoad(%)');
+            data.addColumn('number','Throttle(%)');
 
-    var optionsElectricity = {
-     title:'Electricity Consumption',
-     legend:{position:'bottom'},
-     chartArea:{width:'90%', height:'60%'}
-    };
+            data.addRows([              
+                <?php echo $data; ?> //dump the result into here, as it's correctly formatted   
+            ]);
 
-    var chartWater = new google.visualization.LineChart(document.getElementById('line_chart_water'));
-    var chartElectricity = new google.visualization.LineChart(document.getElementById('line_chart_electricity'));
+        var options = {
+            title: 'OBD data log plot',
+            legend: { position: 'bottom' },
+            width: 900,
+            height: 500,
+            hAxis: { format: 'hh:mm:ss' }
+        }; 
 
-    chartWater.draw(data, optionsWater);
-    chartElectricity.draw(data,optionsElectricity);
-   }
+    var chart = new google.visualization.LineChart(document.getElementById('chart'));
+      chart.draw(data, options);    
+      }
   </script>
   <style>
   .page-wrapper
@@ -314,22 +303,14 @@ $jsonTable = json_encode($table);
   </style>
  </head>  
  <body>
-  <div class="col-lg-6 col-md-6 head-text">
+  <div class="col-lg-12 col-md-12 head-text">
    
-   <h2 align="center">Water Level Consumption</h2>
+   <h2 align="center">OBD parameters plot</h2>
     <center>
-   <div id="line_chart_water" style="width: 100%; height: 500px"></div>
+   <div id="chart" style="width: 100%; height: 500px"></div>
     </center>
   </div>
 
-  <div class="col-lg-6 col-md-6">
-   <h2 align="center">Electric energy Consumption</h2>
-   <center>
-   <div id="line_chart_electricity" style="width: 100%; height: 500px"></div>
- 
-</center>
-</div>
-  </div>
  </body>
 </html>
 	

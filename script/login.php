@@ -14,19 +14,18 @@ if(isset($_POST))
 		$_SESSION["username"]=$username;
 	}
 
-	$conn = new mysqli('172.22.25.3','priyen','priyen@312','priyen@watertank');
+require '../connect.php';
 
 	if($conn->connect_error)
 	{
 		die("connection failed".$conn->error);
 	}
 
-	$query="SELECT * FROM `login` WHERE `username`='$username' and `password`='$passwd'";
+	$query="SELECT * FROM `user` WHERE `username`='$username' and `password`='$passwd'";
 	$result = $conn->query($query);
 	if ($result->num_rows > 0)
 	{
-		$query2="INSERT INTO `customerlogs` (`username`, `timestamp`) VALUES ('$username', '$datetime');";
-		$res2 = $conn->query($query2);
+		
 		header('Location: ../monitor1.php');
 	}
 	else

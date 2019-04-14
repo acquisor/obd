@@ -1,7 +1,6 @@
 <?php
 session_start();
 ?>
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js" type="text/javascript"></script>
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -34,7 +33,7 @@ mark {
     color: black;
 }
 body {
-	background-image: url(p2.jpg);
+	background-image: url(images/bkgnd.jpg);
 }
 body,td,th {
 	font-family: Times New Roman, Times, serif;
@@ -61,8 +60,10 @@ footer {
 	
 }
 
-#map{
-	height: 550px;
+#dtcInfo{
+	height: auto;
+    padding: 20px;
+    font-size: 20px;
 
 }
 #data{
@@ -112,6 +113,9 @@ footer {
 }
 </style></head>
 <body>
+
+<form id="form1" runat="server" method="get" action="#">
+
 		<header id="header">
 			<nav class="navbar navbar-inverse">
             <div class="container-fluid">
@@ -127,15 +131,14 @@ footer {
         <div class="collapse navbar-collapse" id="myNavbar">
                     <ul class="nav navbar-nav">
 
-                        <li><a href="monitor1.php">Home &nbsp<span class="glyphicon glyphicon-home"></span></a></li>
+                        <li class="active"><a href="monitor1.php">Home &nbsp<span class="glyphicon glyphicon-home"></span></a></li>
                         <li><a href="contact.php">Contact &nbsp<span class="glyphicon glyphicon-envelope"></span></a></li> 
                         <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Menu <span class="glyphicon glyphicon-th-list"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="monitor1.php"><span class="glyphicon glyphicon-eye-open"></span> &nbsp Monitor OBD</a></li>
-                            <li><a href="devDetails.php"> <span class="glyphicon glyphicon-tasks"></span> &nbsp Device Details</a> </li>
-                            <li class="active"><a href="dtcSearch.php"><span class="glyphicon glyphicon-map-marker"></span> &nbsp Search DTC </a> </li>
+                            <li><a href="dtcsearch.php"><span class="glyphicon glyphicon-search"></span> &nbsp Search DTC </a> </li>
                             <li><a href="graph.php"><span class="glyphicon glyphicon-stats"></span> &nbsp Graphical Analysis </a> </li>
-                            <li><a href="complaint.php"><span class="glyphicon glyphicon-edit"></span> &nbsp Register Malfunction</a></li
+                            <li><a href="complaint.php"><span class="glyphicon glyphicon-edit"></span> &nbsp Register Malfunction</a></li>
                         </ul>
                     </ul>
 
@@ -158,8 +161,44 @@ footer {
 		<div id="dtcDetails">
 
 	        <center>
-	            <h1>Search DTCs from our database!</h1>
-	        </center>
+	            <h1><font color="black">Search DTCs from our database!</font></h1><br>
+                    
+                <div class="search-container">
+                    <form method="get" action="#">
+                      <input size=40pc type="text" placeholder="Search.." name="code">
+                      <button type="submit"><span class="glyphicon glyphicon-search"></span></button>
+                    </form>
+                </div>
+
+            </center>
+
+                <?php
+                if($_GET)
+                {
+                    $code=$_GET["code"];
+                    require "connect.php";
+
+                    $sqlS = "SELECT `info` FROM `dtc` where `codes`='$code';  ";
+                    $res = $conn->query($sqlS);
+
+                    if($res->num_rows > 0)
+                    {
+                        while($row = $res->fetch_assoc()) 
+                        {
+                            $info = $row["info"];
+                        }
+                    }
+                    else
+                    {
+                        $info="DTC not found. The database consists of Generic DTCs only.";
+                    }
+                }
+                ?>
+                <div id="dtcInfo">
+                    DTC: <?php echo "$code";?> <br> 
+                    Meaning: <?php echo "$info";?><br>
+                </div>
+	        <br>
 	        <div class="row">
 			    <div class="col-xs-12 col-sm-6">
 			        <div class="panel-group launch" id="accordion-one" role="tablist" aria-multiselectable="true">
@@ -167,7 +206,7 @@ footer {
 			            <div class="panel-heading" role="tab" id="headingPCodes">
 			              <h4 class="panel-title">
 			                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapsePCodes" aria-expanded="true" aria-controls="collapsePCodes">
-			                  P-Codes
+			                 <center>P-Codes</center>
 			                </a>
 			              </h4>
 			            </div>
@@ -1218,12 +1257,12 @@ footer {
 			                <p>P3000 - Hacking AWH Data</p>
 			              </div>
 			            </div>
-			          </div>
+			          </div><br><br>
 			          <div class="panel panel-default">
 			            <div class="panel-heading" role="tab" id="headingBCodes">
 			              <h4 class="panel-title">
 			                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseBCodes" aria-expanded="true" aria-controls="collapseBCodes">
-			                  B-Codes
+			                  <center>B-Codes</center>
 			                </a>
 			              </h4>
 			            </div>
@@ -2962,7 +3001,7 @@ footer {
 			            <div class="panel-heading" role="tab" id="headingCCodes">
 			              <h4 class="panel-title">
 			                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseCCodes" aria-expanded="true" aria-controls="collapseCCodes">
-			                  C-Codes
+			                  <center>C-Codes</center>
 			                </a>
 			              </h4>
 			            </div>
@@ -3100,12 +3139,12 @@ footer {
 			                <p>C0896 - Electronic Suspension Control (ESC) voltage is outside the normal range of 9 to 15.5 volts</p>
 			              </div>
 			            </div>
-			          </div>
+			          </div><br><br>
 			          <div class="panel panel-default">
 			            <div class="panel-heading" role="tab" id="headingUCodes">
 			              <h4 class="panel-title">
 			                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseUCodes" aria-expanded="true" aria-controls="collapseUCodes">
-			                  U-Codes
+			                  <center>U-Codes</center>
 			                </a>
 			              </h4>
 			            </div>
@@ -3419,7 +3458,7 @@ footer {
 				</div>
 			</div>
 	    </div>
-		<br>
+	
 	</div>
 	
     <script src="js/jquery.js" type="text/javascript"></script>
@@ -3428,7 +3467,7 @@ footer {
     <script src="js/jquery.isotope.min.js" type="text/javascript"></script>
     <script src="js/main.js" type="text/javascript"></script>
     <script src="js/wow.min.js" type="text/javascript"></script>
-    
+    </form>
     <footer>
     <div id="msg" width="100%">
         <center>
