@@ -230,7 +230,7 @@ tr:nth-child(odd) {
 <?php
 //index.php
 require 'connect.php';
-$qry = "SELECT `time`, `rpm`, `speed`, `engineload`, `throttle` from `obd_log` WHERE `date`='2019-04-14' ORDER BY `time` ASC";
+$qry = "SELECT `time`, `rpm`, `speed`, `engineload`, `throttle` from `obd_log` WHERE `user`='priyen' ORDER BY `time` ASC";
 $result = $conn->query($qry);
 
 if($result === FALSE) {

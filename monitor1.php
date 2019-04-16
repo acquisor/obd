@@ -234,7 +234,7 @@ require 'connect.php';
 
 			<?php
 			
-			$sqlS = "SELECT * FROM `obd_log` WHERE `user`='".$_SESSION['username']."' ORDER BY `time` DESC LIMIT 1;";
+			$sqlS = "SELECT * FROM `obd_log` WHERE `user`='".$_SESSION['username']."' ORDER BY CONCAT(`date`,`time`) DESC LIMIT 1;";
 			$result = $conn->query($sqlS);
 			if ($result->num_rows > 0) 
 			{	
@@ -323,7 +323,7 @@ require 'connect.php';
 	<?php
 	$pending_counter=0;
 
-	$sqlS = "SELECT * FROM `dtc_log` WHERE `user`='".$_SESSION['username']."';";
+	$sqlS = "SELECT * FROM `dtc_log` WHERE `user`='".$_SESSION['username']."' ORDER BY `status` DESC;";
 	$result = $conn->query($sqlS);
 	if ($result->num_rows > 0) 
 	{	
@@ -336,7 +336,7 @@ require 'connect.php';
 			$status=$row["status"];
 			$timestamp=$row["timestamp"];
 
-			echo "<tr><td> $code </td> <td> $status</td> <td> $timestamp </td></tr>";
+			echo "<tr><td><a href='dtcsearch.php?code=$code'> $code </a></td> <td> $status</td> <td> $timestamp </td></tr>";
 		}
 		echo "</table>";
 	}
